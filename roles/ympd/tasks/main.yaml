@@ -1,0 +1,47 @@
+---
+- name: install ympd dependencies
+  apt:
+      name: ['g++', 'cmake', 'libmpdclient-dev', 'git', 'build-essential', 'openssl', 'libssl-dev', 'mpd']
+      state: present
+
+- name: start mpd
+  service:
+      name: mpd
+      state: started
+      enabled: true
+
+- name: clone ympd git repo
+  git:
+      repo: https://github.com/notandy/ympd
+      dest: /opt/ympd/
+      version: v1.3.0
+
+- name: run make
+  command: cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr
+  args:
+    chdir: /opt/ympd/src
+
+- name: run make
+  command: make
+  args:
+    chdir: /opt/ympd/src
+
+- name: run make install
+  command: make install
+  args:
+    chdir: /opt/ympd/src
+
+- name: copy systemd service file
+  copy:
+      src: ympd.service
+      dest: /etc/systemd/system/ympd.service
+
+- name: reload services
+  systemd:
+      daemon_reload: true
+
+- name: start ympd
+  service:
+      name: ympd
+      state: restarted
+      enabled: true
