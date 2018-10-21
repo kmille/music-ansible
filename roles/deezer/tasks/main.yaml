@@ -1,0 +1,86 @@
+---
+- name: install python-virtualenv python-dev python-tk
+  apt: 
+    name: ['python-virtualenv', 'python-dev', 'python-tk']
+    state: present
+
+- name: add user deezer
+  user:
+      name: deezer
+
+- name: add group deezer
+  group:
+      name: deezer
+
+      #- name: clone deezer repo
+      #  git:
+      #      repo: https://gitlab.com/kmille/deezer-downloader.git
+      #      dest: /opt/deezer
+      #      version: debug2
+      #      force: true
+
+- name: "chown deezer to /opt/deezer"
+  file: 
+    dest: /opt/deezer
+    owner: deezer
+    group: deezer
+    mode: 0755
+    recurse: yes
+
+- name: install pip requirements in virtualenv
+  pip:
+    requirements: /opt/deezer/app/requirements.txt
+    virtualenv: /opt/deezer/venv
+
+- name: add credentials for deezer
+  copy:
+      dest: /opt/deezer/app/deezer/credentials.py
+      content: |
+          email = """{{ deezer_email }}"""
+          password =  """{{ deezer_password }}"""
+      owner: deezer
+      group: deezer
+      mode: 0600
+  
+- name: add settings.py
+  template:
+      dest: /opt/deezer/app/deezer/settings.py
+      src: settings.j2
+      owner: deezer
+      group: deezer
+      mode: 0600
+
+- name: add service file for deezer
+  copy:
+      src: deezer.service
+      dest: /etc/systemd/system/deezer.service
+
+- name: create download dir
+  file:
+      path: "{{ deezer_download_dir }}"
+      mode: 0755
+      owner: deezer
+      group: deezer
+      state: directory
+
+- name: start deezer service 
+  service:
+      name: deezer
+      state: restarted
+      enabled: true
+
+- name: install nginx
+  apt:
+      name: nginx
+      state: present
+
+- name: add nginx config
+  copy:
+      dest: /etc/nginx/sites-enabled/default
+      src: nginx.conf
+
+- name: restart nginx
+  service:
+      name: nginx
+      state: restarted
+

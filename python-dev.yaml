@@ -1,9 +1,0 @@
-- name: install python3-pip
-  apt:
-     name: ['python3-pip', 'python-setuptools']
-     state: present
-
-- name: install python-mpd2 ipython
-  pip:
-      name: ['python-mpd2', 'ipython']
-      executable: pip3
