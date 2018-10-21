@@ -14,3 +14,5 @@ Required variables are:
 music_dir and deezer_download_dir without trailing slashes please.
 
 
+# Screenshot
+![Alt text](https://image.ibb.co/cjBC30/screen.png "KISS")
