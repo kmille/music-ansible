@@ -42,11 +42,11 @@
       state: restarted
       enabled: true
 
-      #- name: clone ympd git repo
-      #  git:
-      #      repo: https://github.com/notandy/ympd
-      #      dest: /opt/ympd/
-      #      version: v1.3.0
+- name: clone ympd git repo
+  git:
+      repo: https://github.com/notandy/ympd
+      dest: /opt/ympd/
+      version: v1.3.0
 
 - name: run make
   command: cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr

@@ -12,12 +12,12 @@
   group:
       name: deezer
 
-      #- name: clone deezer repo
-      #  git:
-      #      repo: https://gitlab.com/kmille/deezer-downloader.git
-      #      dest: /opt/deezer
-      #      version: debug2
-      #      force: true
+- name: clone deezer repo
+  git:
+      repo: https://gitlab.com/kmille/deezer-downloader.git
+      dest: /opt/deezer
+      version: debug2
+      force: true
 
 - name: "chown deezer to /opt/deezer"
   file: 
