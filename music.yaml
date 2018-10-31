@@ -2,8 +2,8 @@
 - hosts: all
   gather_facts: no
   vars:
-      music_dir: /opt/music
-      deezer_download_dir: /opt/music/deezer
+      music_dir: /home/chaos/music
+      deezer_download_dir: /home/chaos/music/kmille/deezer
       #music_dir_host: /home/kmille/projects/deezer-downloader/downloads/
       deezer_email: hahatest123@byom.de
       deezer_password: f438uf43$G"DE

@@ -11,10 +11,10 @@
       name: ['g++', 'cmake', 'libmpdclient-dev', 'git', 'build-essential', 'openssl', 'libssl-dev', 'mpd', 'mpc']
       state: present
 
-- name: remove mpds default music dir
-  file:
-      dest: /var/lib/mpd/music
-      state: absent
+      #- name: remove mpds default music dir
+      #  file:
+      #      dest: /var/lib/mpd/music
+      #      state: absent
 
 - name: create folder for music
   file:
@@ -23,11 +23,11 @@
       mode: 0755
       owner: mpd
 
-- name: link music
-  file:
-      src: "{{ music_dir }}" 
-      dest: /var/lib/mpd/music
-      state: link
+      #- name: link music
+      #  file:
+      #      src: "{{ music_dir }}" 
+      #      dest: /var/lib/mpd/music
+      #      state: link
 
 - name: start mpd
   service:
