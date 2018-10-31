@@ -28,7 +28,7 @@
 
 - name: install pip requirements in virtualenv
   pip:
-    requirements: /opt/deezer/app/requirements.txt
+    requirements: /opt/deezer/requirements.txt
     virtualenv: /opt/deezer/venv
 
 - name: add credentials for deezer
@@ -67,6 +67,15 @@
       name: deezer
       state: restarted
       enabled: true
+
+- name: fix static /deezer/ prefix from reverse proxy in index.html and custom.js
+  shell: sed -i 's@/static/@/deezer/static/@' /opt/deezer/app/templates/index.html
+      
+- name: fix api /deezer/ prefix from reverse proxy in index.html and custom.js
+  shell: sed -i 's@/api/@/deezer/api/@' /opt/deezer/app/templates/index.html
+
+- name: fix api /deezer/ prefix from reverse proxy in index.html and custom.js
+  shell: sed -i 's@update_mpd = False@update_mpd = True@' /opt/deezer/app/settings.py
 
 - name: install nginx
   apt:

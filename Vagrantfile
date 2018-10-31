@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "ansible" do |ansible|
-      ansible.playbook = "site.yaml"
+      ansible.playbook = "music.yaml"
       ansible.become = true
       ansible.verbose = true
   end

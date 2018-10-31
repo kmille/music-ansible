@@ -1,13 +1,14 @@
 ---
 - name: copy some music
   copy:
-      src: /home/kmille/projects/deezer-downloader/downloads/
+      src: "{{ music_dir_host }}"
       dest: /opt/music
       force: no
+  when: music_dir_host is defined
 
-- name: install ympd dependencies
+- name: install ympd dependencies + mpd
   apt:
-      name: ['g++', 'cmake', 'libmpdclient-dev', 'git', 'build-essential', 'openssl', 'libssl-dev', 'mpd']
+      name: ['g++', 'cmake', 'libmpdclient-dev', 'git', 'build-essential', 'openssl', 'libssl-dev', 'mpd', 'mpc']
       state: present
 
 - name: remove mpds default music dir
@@ -15,16 +16,33 @@
       dest: /var/lib/mpd/music
       state: absent
 
+- name: create folder for music
+  file:
+      path: "{{ music_dir }}"
+      state: directory
+      mode: 0755
+      owner: mpd
+
 - name: link music
   file:
       src: "{{ music_dir }}" 
       dest: /var/lib/mpd/music
       state: link
 
-- name: copy ympd config file
-  copy: 
-    dest: /etc/systemd/system/ympd.service
-    src: ympd.service
+- name: start mpd
+  service:
+      name: mpd
+      state: restarted
+      enabled: true
+
+# end mpd and start with ympd
+
+- name: clone ympd git repo
+  git:
+      repo: https://github.com/notandy/ympd
+      dest: /opt/ympd/
+      version: v1.3.0
+      force: true
 
 - name: add ympd patch file
   copy: 
@@ -36,25 +54,8 @@
   args:
     chdir: /opt/ympd
 
-- name: start mpd
-  service:
-      name: mpd
-      state: restarted
-      enabled: true
-
-- name: clone ympd git repo
-  git:
-      repo: https://github.com/notandy/ympd
-      dest: /opt/ympd/
-      version: v1.3.0
-
 - name: run make
   command: cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr
-  args:
-    chdir: /opt/ympd/src
-
-- name: run make
-  command: make
   args:
     chdir: /opt/ympd/src
 
@@ -77,3 +78,6 @@
       name: ympd
       state: restarted
       enabled: true
+
+- name: update mpd database
+  shell: mpc update
