@@ -16,3 +16,13 @@ music_dir and deezer_download_dir without trailing slashes please.
 
 # Screenshot
 ![Alt text](https://image.ibb.co/cjBC30/screen.png "KISS")
+
+run it with: ansible-playbook music.yaml --ask-sudo-pass  
+(ajdust your ssh config to get password less ssh access. then will ask for a password)  
+
+if you have to ajdust the routes in the front end (e.g downloader is not under / but /deezer)
+sed -i 's@/static/@/deezer/static/@' app/templates/index.html  
+sed -i 's@/api/@/deezer/api/@' app/static/js/custom.js  
+maybe you have to restart gunicorn  
+ 
+

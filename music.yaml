@@ -8,6 +8,9 @@
       deezer_email: hahatest123@byom.de
       deezer_password: f438uf43$G"DE
 
+  become: True
+  become_method: sudo
   roles:
     - ympd
     - deezer
+

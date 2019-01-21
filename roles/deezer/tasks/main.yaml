@@ -14,7 +14,7 @@
 
 - name: clone deezer repo
   git:
-      repo: https://gitlab.com/kmille/deezer-downloader.git
+      repo: https://github.com/kmille/deezer-downloader.git
       dest: /opt/deezer
       force: true
 
@@ -68,11 +68,6 @@
       state: restarted
       enabled: true
 
-- name: fix static /deezer/ prefix from reverse proxy in index.html and custom.js
-  shell: sed -i 's@/static/@/deezer/static/@' /opt/deezer/app/templates/index.html
-      
-- name: fix api /deezer/ prefix from reverse proxy in index.html and custom.js
-  shell: sed -i 's@/api/@/deezer/api/@' /opt/deezer/app/templates/index.html
 
 - name: fix api /deezer/ prefix from reverse proxy in index.html and custom.js
   shell: sed -i 's@update_mpd = False@update_mpd = True@' /opt/deezer/app/settings.py
