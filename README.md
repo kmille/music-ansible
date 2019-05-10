@@ -1,4 +1,4 @@
-# ansible deployment for managing music with mpd
+# ansible deployment for managing music with mpd (not maintaned anymore)
 deploys: mpd, ympd as web frontend and a self written music downloader (music comes from deezer)  
 
 The deezer downloader can be found here: https://gitlab.com/kmille/deezer-downloader
