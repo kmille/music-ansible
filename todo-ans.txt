@@ -1,0 +1,22 @@
+settings:
+- run us: deezer
+	 => files anpssen => templates draus machen
+	 => main.yaml statisch das deezer rausnehmen
+
+credentials.py überschreiben:
+	- cookie rein
+	- danach noch: chmod und chown
+
+settings.py anpassen:
+- mpd anbindung?
+    - danach: in javascript setzen
+- download_dir
+    - danach: download dir erstellen und chown
+
+
+docs:
+/d/
+
+bugs:
+- auto_index hinter /d
+

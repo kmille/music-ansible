@@ -1,0 +1,13 @@
+[Unit]
+Description = Deezer Music Downloader
+After = network.target
+
+[Service]
+User = deezer
+Group = deezer
+WorkingDirectory = /opt/deezer/app
+ExecStart = /opt/deezer/venv/bin/python deezer.py  check-login
+PrivateTmp = true
+
+[Install]
+WantedBy = multi-user.target
